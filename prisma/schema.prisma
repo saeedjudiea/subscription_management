@@ -1,0 +1,35 @@
+// prisma/schema.prisma
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Subscription {
+  id                    Int        @id @default(autoincrement())
+  service               String
+  startDate             DateTime
+  endDate               DateTime
+  price                 Float
+  url                   String
+  user                  String
+  pass                  String
+  newPassword           String?
+  expiresOn             DateTime?
+  hostingName           String?
+  kind                  String?
+  nameOfDevelopmentTool String?
+  history               History[]
+}
+
+model History {
+  id              Int          @id @default(autoincrement())
+  startDate       DateTime
+  endDate         DateTime
+  price           Float
+  subscriptionId  Int
+  subscription    Subscription @relation(fields: [subscriptionId], references: [id])
+}
